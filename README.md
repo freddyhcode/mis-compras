@@ -15,7 +15,7 @@
 
 ## Descargar
 
-Última versión: **v0.1.0** · Android 7.0 o superior · 120 MB
+Última versión: **v0.1.1** · Android 7.0 o superior · 120 MB
 
 **[Descargar el APK](https://github.com/freddyhcode/mis-compras/releases/latest)**
 
