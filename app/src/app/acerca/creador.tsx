@@ -132,10 +132,6 @@ export default function CreatorScreen() {
             href={isUrl(branding.support) ? branding.support : undefined}
           />
         </View>
-
-        <AppText variant="caption" color={colors.textMuted} align="center">
-          {s.about.creatorHint}
-        </AppText>
       </Card>
     </Screen>
   );

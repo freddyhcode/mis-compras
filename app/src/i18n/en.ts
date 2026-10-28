@@ -190,7 +190,6 @@ export const en: Strings = {
     licenseTitle: 'License',
     licenseBody: 'MIT.',
     madeIn: 'Made in Chile.',
-    creatorHint: 'These values are configured in app/.env with EXPO_PUBLIC_APP_*.',
   },
   accents: {
     lavanda: 'Lavender',

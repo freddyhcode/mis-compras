@@ -179,7 +179,8 @@ export const s = {
     autoSave: 'Los cambios se guardan automáticamente.',
   },
   about: {
-    whatIsTitle: 'Qué es',    whatIsBody:
+    whatIsTitle: 'Qué es',
+    whatIsBody:
       'Mis Compras es un registro local de compras y gastos en pesos chilenos. Sirve para guardar qué compraste, cuánto pagaste y cuándo, sin cuentas ni nube.',
     localTitle: 'Tus datos',
     localBody:
@@ -187,7 +188,6 @@ export const s = {
     licenseTitle: 'Licencia',
     licenseBody: 'MIT.',
     madeIn: 'Hecho en Chile.',
-    creatorHint: 'Estos datos se configuran en app/.env con EXPO_PUBLIC_APP_*.',
   },
   accents: {
     lavanda: 'Lavanda',
