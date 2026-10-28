@@ -13,8 +13,6 @@ Registro local de compras y gastos en pesos chilenos (CLP), para Android e iOS.
 
 La app permite crear compras, agregar productos con cantidad, unidad y precio, calcular el total, consultar el historial, ver estadísticas y exportar a Excel. Todo queda en el dispositivo: no hay cuentas, nube, publicidad ni analítica.
 
-Es un prototipo en desarrollo. No usar con datos reales hasta validar el build nativo, SQLCipher y los textos legales.
-
 ## La idea
 
 - Registrar compras de supermercado, online o de cualquier tienda.
