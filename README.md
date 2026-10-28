@@ -1,5 +1,14 @@
 # Mis Compras
 
+<p align="center">
+  <img alt="Expo SDK 57" src="https://img.shields.io/badge/Expo_SDK-57-000020?logo=expo&logoColor=white" />
+  <img alt="React Native 0.86" src="https://img.shields.io/badge/React_Native-0.86-61DAFB?logo=react&logoColor=black" />
+  <img alt="TypeScript strict" src="https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white" />
+  <img alt="Android e iOS" src="https://img.shields.io/badge/platforms-Android%20%7C%20iOS-3DDC84" />
+  <img alt="100% local" src="https://img.shields.io/badge/datos-100%25%20locales-1E7E34" />
+  <img alt="Licencia MIT" src="https://img.shields.io/badge/licencia-MIT-blue" />
+</p>
+
 Registro local de compras y gastos en pesos chilenos (CLP), para Android e iOS.
 
 La app permite crear compras, agregar productos con cantidad, unidad y precio, calcular el total, consultar el historial, ver estadísticas y exportar a Excel. Todo queda en el dispositivo: no hay cuentas, nube, publicidad ni analítica.
@@ -12,10 +21,6 @@ Es un prototipo en desarrollo. No usar con datos reales hasta validar el build n
 - Guardar qué se compró, cuánto se pagó y cuándo.
 - Tener un historial consultable y un resumen de gastos.
 - Exportar los datos a Excel cuando el usuario lo pida.
-
-## Stack
-
-Expo SDK 57, React Native 0.86, React 19.2, TypeScript estricto, Expo Router, `expo-sqlite` con SQLCipher en nativo, `expo-secure-store`, Nunito y `write-excel-file`.
 
 ## Requisitos
 
@@ -33,12 +38,6 @@ cd mis-compras/app
 npm ci
 npm run start
 ```
-
-`npm run start` abre Expo para web y móvil.
-
-- `w`: abre la versión web.
-- QR: abre la app en Expo Go.
-- `npm run web`: abre solo el navegador.
 
 Web y Expo Go usan datos sin cifrar y sirven para desarrollo. La validación de seguridad se hace en un dev build o APK.
 
@@ -70,8 +69,6 @@ El APK queda en `android/app/build/outputs/apk/release/`.
 npx expo prebuild --platform ios --clean
 npx expo run:ios
 ```
-
-Requiere macOS con Xcode. Para App Store también se necesita Apple Developer Program.
 
 ## Variables de entorno
 
@@ -105,8 +102,6 @@ npm test
 npx expo-doctor
 ```
 
-Estado actual: 4 suites, 10 tests y `expo-doctor` 21/21.
-
 ## Estructura
 
 ```text
@@ -126,6 +121,4 @@ app/
 
 ## Licencia
 
-MIT. Ver [`LICENSE`](LICENSE).
-
-Repositorio: https://github.com/freddyhcode/mis-compras
+MIT.
