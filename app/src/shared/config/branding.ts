@@ -8,4 +8,5 @@ export const branding = {
   github: value(process.env.EXPO_PUBLIC_APP_GITHUB, 'No definido'),
   creator: value(process.env.EXPO_PUBLIC_APP_CREATOR, 'No definido'),
   contact: value(process.env.EXPO_PUBLIC_APP_CONTACT, 'No definido'),
+  support: value(process.env.EXPO_PUBLIC_APP_SUPPORT, 'No definido'),
 } as const;

@@ -163,6 +163,7 @@ export const s = {
     website: 'Sitio web',
     github: 'GitHub',
     contact: 'Contacto',
+    support: 'Invítame un café',
     dev: 'Desarrollo',
     seed: 'Cargar datos de prueba',
     seedDesc: 'Agrega compras de ejemplo para revisar la app.',

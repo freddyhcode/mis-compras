@@ -79,6 +79,7 @@ EXPO_PUBLIC_APP_CREATOR=Tu nombre
 EXPO_PUBLIC_APP_CONTACT=tu@correo.cl
 EXPO_PUBLIC_APP_WEBSITE=https://tu-sitio.cl
 EXPO_PUBLIC_APP_GITHUB=https://github.com/tu-usuario
+EXPO_PUBLIC_APP_SUPPORT=https://tu-enlace-de-cafe
 ```
 
 Si falta un valor, la app usa `Mis Compras` para el nombre y `No definido` para los datos del creador.

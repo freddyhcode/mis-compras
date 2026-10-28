@@ -125,6 +125,12 @@ export default function CreatorScreen() {
             value={branding.contact}
             href={contactHref}
           />
+          <LinkRow
+            icon="cafe-outline"
+            label={s.settings.support}
+            value={branding.support}
+            href={isUrl(branding.support) ? branding.support : undefined}
+          />
         </View>
 
         <AppText variant="caption" color={colors.textMuted} align="center">

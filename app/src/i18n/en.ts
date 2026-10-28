@@ -165,6 +165,7 @@ export const en: Strings = {
     website: 'Website',
     github: 'GitHub',
     contact: 'Contact',
+    support: 'Buy me a coffee',
     dev: 'Development',
     seed: 'Load sample data',
     seedDesc: 'Adds sample purchases to review the app.',
