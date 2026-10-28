@@ -1,4 +1,4 @@
-import * as FileSystem from 'expo-file-system/legacy';
+import { File, Paths } from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import { Platform } from 'react-native';
 import writeXlsxFile, { type SheetData } from 'write-excel-file/universal';
@@ -11,6 +11,9 @@ import type { Purchase } from './types';
 
 const XLSX_MIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 const XLSX_UTI = 'org.openxmlformats.spreadsheetml.sheet';
+
+type Workbook = Parameters<typeof writeXlsxFile>[0];
+type WorkbookOptions = Parameters<typeof writeXlsxFile>[1];
 
 const header = (value: string) => ({
   value,
@@ -104,39 +107,82 @@ function buildProductsSheet(purchases: Purchase[], strings: Strings): SheetData 
   return [headerRow, ...rows] as SheetData;
 }
 
-function blobToBase64(blob: Blob): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const ReaderCtor = (globalThis as unknown as {
-      FileReader?: new () => {
-        result: string | ArrayBuffer | null;
-        error: unknown;
-        onloadend: (() => void) | null;
-        onerror: (() => void) | null;
-        readAsDataURL: (value: Blob) => void;
-      };
-    }).FileReader;
+function buildWorkbook(purchases: Purchase[], strings: Strings): Workbook {
+  const e = strings.export;
 
-    if (!ReaderCtor) {
-      reject(new Error('No pudimos preparar el archivo Excel.'));
-      return;
+  return [
+    {
+      data: buildSummarySheet(purchases, strings),
+      sheet: e.summary,
+      columns: [{ width: 28 }, { width: 18 }],
+    },
+    {
+      data: buildPurchasesSheet(purchases, strings),
+      sheet: e.purchases,
+      columns: [
+        { width: 28 },
+        { width: 14 },
+        { width: 22 },
+        { width: 18 },
+        { width: 12 },
+        { width: 16 },
+        { width: 36 },
+      ],
+      stickyRowsCount: 1,
+    },
+    {
+      data: buildProductsSheet(purchases, strings),
+      sheet: e.products,
+      columns: [
+        { width: 28 },
+        { width: 28 },
+        { width: 12 },
+        { width: 10 },
+        { width: 22 },
+        { width: 18 },
+      ],
+      stickyRowsCount: 1,
+    },
+  ] as Workbook;
+}
+
+const workbookOptions: WorkbookOptions = { fontFamily: 'Calibri', fontSize: 11 };
+
+/**
+ * React Native no puede crear `Blob` desde un `ArrayBuffer`, y `write-excel-file`
+ * depende de eso. Se intercepta el constructor solo durante la generación para
+ * quedarse con los bytes y escribir el archivo directo al disco.
+ */
+async function renderXlsxBuffer(workbook: Workbook): Promise<ArrayBuffer> {
+  const scope = globalThis as unknown as { Blob: unknown };
+  const OriginalBlob = scope.Blob;
+  let captured: ArrayBuffer | null = null;
+
+  class CaptureBlob {
+    constructor(parts?: unknown[]) {
+      const part = parts?.[0];
+      if (part instanceof ArrayBuffer) {
+        captured = part;
+      } else if (part && ArrayBuffer.isView(part)) {
+        const view = part as ArrayBufferView;
+        captured = view.buffer.slice(
+          view.byteOffset,
+          view.byteOffset + view.byteLength,
+        ) as ArrayBuffer;
+      }
     }
+  }
 
-    const reader = new ReaderCtor();
-    reader.onloadend = () => {
-      if (typeof reader.result !== 'string') {
-        reject(new Error('No pudimos preparar el archivo Excel.'));
-        return;
-      }
-      const base64 = reader.result.split(',')[1];
-      if (!base64) {
-        reject(new Error('No pudimos preparar el archivo Excel.'));
-        return;
-      }
-      resolve(base64);
-    };
-    reader.onerror = () => reject(new Error('No pudimos preparar el archivo Excel.'));
-    reader.readAsDataURL(blob);
-  });
+  scope.Blob = CaptureBlob;
+  try {
+    await writeXlsxFile(workbook, workbookOptions).toBlob();
+  } finally {
+    scope.Blob = OriginalBlob;
+  }
+
+  const buffer = captured as ArrayBuffer | null;
+  if (!buffer) throw new Error('No pudimos preparar el archivo Excel.');
+  return buffer;
 }
 
 async function downloadOnWeb(blob: Blob, fileName: string): Promise<void> {
@@ -167,66 +213,26 @@ export async function exportPurchasesToXlsx(
   purchases: Purchase[],
   strings: Strings,
 ): Promise<void> {
-  const blob = await writeXlsxFile(
-    [
-      {
-        data: buildSummarySheet(purchases, strings),
-        sheet: strings.export.summary,
-        columns: [{ width: 28 }, { width: 18 }],
-      },
-      {
-        data: buildPurchasesSheet(purchases, strings),
-        sheet: strings.export.purchases,
-        columns: [
-          { width: 28 },
-          { width: 14 },
-          { width: 22 },
-          { width: 18 },
-          { width: 12 },
-          { width: 16 },
-          { width: 36 },
-        ],
-        stickyRowsCount: 1,
-      },
-      {
-        data: buildProductsSheet(purchases, strings),
-        sheet: strings.export.products,
-        columns: [
-          { width: 28 },
-          { width: 28 },
-          { width: 12 },
-          { width: 10 },
-          { width: 22 },
-          { width: 18 },
-        ],
-        stickyRowsCount: 1,
-      },
-    ],
-    { fontFamily: 'Calibri', fontSize: 11 },
-  ).toBlob();
-
+  const workbook = buildWorkbook(purchases, strings);
   const date = new Date().toISOString().slice(0, 10);
   const fileName = `mis-compras-${date}.xlsx`;
 
   if (Platform.OS === 'web') {
+    const blob = await writeXlsxFile(workbook, workbookOptions).toBlob();
     await downloadOnWeb(blob, fileName);
     return;
   }
 
-  const base64 = await blobToBase64(blob);
-  const directory = FileSystem.cacheDirectory;
-  if (!directory) throw new Error('No pudimos preparar el archivo Excel.');
-
-  const uri = `${directory}${fileName}`;
-  await FileSystem.writeAsStringAsync(uri, base64, {
-    encoding: FileSystem.EncodingType.Base64,
-  });
+  const buffer = await renderXlsxBuffer(workbook);
+  const target = new File(Paths.cache, fileName);
+  target.create({ overwrite: true });
+  target.write(new Uint8Array(buffer));
 
   if (!(await Sharing.isAvailableAsync())) {
     throw new Error('Compartir archivos no está disponible en este dispositivo.');
   }
 
-  await Sharing.shareAsync(uri, {
+  await Sharing.shareAsync(target.uri, {
     mimeType: XLSX_MIME,
     UTI: XLSX_UTI,
     dialogTitle: strings.settings.export,
