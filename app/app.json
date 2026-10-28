@@ -2,7 +2,7 @@
   "expo": {
     "name": "Mis Compras",
     "slug": "mis-compras",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "miscompras",
@@ -14,6 +14,7 @@
     },
     "android": {
       "package": "cl.miscompras.app",
+      "versionCode": 2,
       "allowBackup": false,
       "predictiveBackGestureEnabled": false,
       "adaptiveIcon": {

@@ -9,23 +9,22 @@ import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Platform } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import { AppSplash } from '@/components/ui/AppSplash';
 import { AppDataProvider, useAppData } from '@/shared/providers/AppDataProvider';
 
 SplashScreen.preventAutoHideAsync().catch(() => undefined);
 
 function ThemedApp() {
   const { colors, theme, loading } = useAppData();
-  const [minElapsed, setMinElapsed] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setMinElapsed(true), 700);
-    return () => clearTimeout(timer);
-  }, []);
+    if (loading) return;
+    // El splash nativo se mantiene hasta que la base de datos y los ajustes están listos.
+    SplashScreen.hideAsync().catch(() => undefined);
+  }, [loading]);
 
   useEffect(() => {
     if (Platform.OS !== 'web') return;
@@ -37,21 +36,15 @@ function ThemedApp() {
     browser.document?.documentElement.style.setProperty('--app-focus', colors.primary);
   }, [colors.primary]);
 
-  const showSplash = loading || !minElapsed;
-
   return (
     <>
       <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
-      {showSplash ? (
-        <AppSplash />
-      ) : (
-        <Stack
-          screenOptions={{
-            headerShown: false,
-            contentStyle: { backgroundColor: colors.background },
-          }}
-        />
-      )}
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          contentStyle: { backgroundColor: colors.background },
+        }}
+      />
     </>
   );
 }
@@ -62,12 +55,6 @@ export default function RootLayout() {
     Nunito_600SemiBold,
     Nunito_700Bold,
   });
-
-  useEffect(() => {
-    if (fontsLoaded || fontError) {
-      SplashScreen.hideAsync().catch(() => undefined);
-    }
-  }, [fontError, fontsLoaded]);
 
   if (!fontsLoaded && !fontError) return null;
 

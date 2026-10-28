@@ -53,7 +53,7 @@ interface AppDataValue {
 
 const AppDataContext = createContext<AppDataValue | null>(null);
 
-const appVersion = Constants.expoConfig?.version ?? '0.1.0';
+const appVersion = Constants.expoConfig?.version ?? '0.1.1';
 
 function sortPurchases(purchases: Purchase[]): Purchase[] {
   return [...purchases].sort((a, b) => {

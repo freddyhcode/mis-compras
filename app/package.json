@@ -1,7 +1,7 @@
 {
   "name": "mis-compras",
   "main": "expo-router/entry",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "license": "MIT",
   "description": "Registro local de compras y gastos en CLP para Android e iOS.",
