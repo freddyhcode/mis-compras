@@ -10,7 +10,12 @@ import { Screen } from '@/components/ui/Screen';
 import { Section } from '@/components/ui/Section';
 import { spacing } from '@/constants/theme';
 import { categoryLabel, formatClp } from '@/features/purchases/format';
-import { monthTotals, topCategories, yearMonthTotals } from '@/features/purchases/stats';
+import {
+  monthTotals,
+  purchasesInSeries,
+  topCategories,
+  yearMonthTotals,
+} from '@/features/purchases/stats';
 import type { Category } from '@/features/purchases/types';
 import { useStrings } from '@/i18n/useStrings';
 import { useAppData } from '@/shared/providers/AppDataProvider';
@@ -47,7 +52,11 @@ export default function StatsScreen() {
     [series],
   );
   const activePeriod = periods.find((option) => option.value === period);
-  const categories = useMemo(() => topCategories(purchases), [purchases]);
+  const periodPurchases = useMemo(
+    () => purchasesInSeries(purchases, series),
+    [purchases, series],
+  );
+  const categories = useMemo(() => topCategories(periodPurchases), [periodPurchases]);
 
   if (loading) return <LoadingScreen />;
 

@@ -69,6 +69,11 @@ function totalsForKeys(
   });
 }
 
+export function purchasesInSeries(purchases: Purchase[], series: MonthTotal[]): Purchase[] {
+  const keys = new Set(series.map((entry) => entry.key));
+  return purchases.filter((purchase) => keys.has(monthKey(purchase.purchasedAt)));
+}
+
 export function topCategories(
   purchases: Purchase[],
   limit = CATEGORIES.length,
