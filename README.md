@@ -1,4 +1,4 @@
-# Mis Compras
+<h1 align="center">Mis Compras</h1>
 
 <p align="center">
   <img alt="Expo SDK 57" src="https://img.shields.io/badge/Expo_SDK-57-000020?logo=expo&logoColor=white" />
@@ -9,11 +9,21 @@
   <img alt="Licencia MIT" src="https://img.shields.io/badge/licencia-MIT-blue" />
 </p>
 
-Registro local de compras y gastos en pesos chilenos (CLP), para Android e iOS.
+<p align="center">
+  Registro local de compras y gastos en pesos chilenos (CLP), para Android e iOS.
+</p>
 
-La app permite crear compras, agregar productos con cantidad, unidad y precio, calcular el total, consultar el historial, ver estadísticas y exportar a Excel. Todo queda en el dispositivo: no hay cuentas, nube, publicidad ni analítica.
+## Descargar
+
+Última versión: **v0.1.0** · Android 7.0 o superior · 120 MB
+
+**[Descargar el APK](https://github.com/freddyhcode/mis-compras/releases/latest)**
+
+Versiones anteriores en [Releases](https://github.com/freddyhcode/mis-compras/releases).
 
 ## La idea
+
+La app permite crear compras, agregar productos con cantidad, unidad y precio, calcular el total, consultar el historial, ver estadísticas y exportar a Excel. Todo queda en el dispositivo: no hay cuentas, nube, publicidad ni analítica.
 
 - Registrar compras de supermercado, online o de cualquier tienda.
 - Guardar qué se compró, cuánto se pagó y cuándo.
@@ -60,6 +70,8 @@ cd android
 ```
 
 El APK queda en `android/app/build/outputs/apk/release/`.
+
+La build de release usa la firma de debug del proyecto. Para publicar en Play Store hay que configurar un keystore propio.
 
 ### iOS
 
