@@ -5,7 +5,6 @@
   <img alt="React Native 0.86" src="https://img.shields.io/badge/React_Native-0.86-61DAFB?logo=react&logoColor=black" />
   <img alt="TypeScript strict" src="https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white" />
   <img alt="Android e iOS" src="https://img.shields.io/badge/platforms-Android%20%7C%20iOS-3DDC84" />
-  <img alt="100% local" src="https://img.shields.io/badge/datos-100%25%20locales-1E7E34" />
   <img alt="Licencia MIT" src="https://img.shields.io/badge/licencia-MIT-blue" />
 </p>
 
